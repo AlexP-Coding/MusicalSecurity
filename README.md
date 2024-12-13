@@ -106,5 +106,5 @@ Access it via [musicmarkt.local](https://musicmarkt.local) on your browser.
 
 ### Authors
 * Alexandra Pato (ist97375) @ [AlexP-Coding](https://github.com/AlexP-Coding)
-* Julliana Sousa (ist105727) @ [AlexP-Coding](https://github.com/jullianasousa)
+* Julliana Sousa (ist105727) @ [Juliana Sousa](https://github.com/jullianasousa)
 * José Almeida (ist105793) @ [zeval](https://github.com/zeval)
