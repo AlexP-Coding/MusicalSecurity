@@ -1,0 +1,5 @@
+192.168.1.10 db db.local
+192.168.1.20 api api.local
+192.168.1.30 fwd fwd.local
+192.168.2.10 fwd fwd.local
+192.168.2.20 web web.local

@@ -1,0 +1,114 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Address {
+  id          Int     @id @default(autoincrement())
+  user_id     Int     @unique(map: "user_id")
+  city        String? @db.VarChar(50)
+  postal_code String  @db.VarChar(10)
+  street      String? @db.VarChar(100)
+  User        User    @relation(fields: [user_id], references: [id], onDelete: Cascade, map: "fk_address_user")
+}
+
+model Artist {
+  id          Int          @id @default(autoincrement())
+  name        String       @unique(map: "unique_artist_name") @db.VarChar(200)
+  description String?      @db.VarChar(250)
+  type        Artist_type?
+  genre       String?      @db.VarChar(50)
+  ArtistItem  ArtistItem[]
+}
+
+model ArtistItem {
+  id         Int     @id @default(autoincrement())
+  artist_id  Int
+  product_id Int
+  Artist     Artist  @relation(fields: [artist_id], references: [id], onDelete: Cascade, map: "fk_artistitem_artist")
+  Product    Product @relation(fields: [product_id], references: [id], onDelete: Cascade, map: "fk_artistitem_product")
+
+  @@unique([artist_id, product_id], map: "unique_artistitem_artist_product")
+  @@index([product_id], map: "fk_artistitem_product")
+}
+
+model CartItem {
+  id         Int     @id @default(autoincrement())
+  product_id Int
+  user_id    Int
+  quantity   Int
+  Product    Product @relation(fields: [product_id], references: [id], onDelete: Cascade, map: "fk_cart_item_product")
+  User       User    @relation(fields: [user_id], references: [id], onDelete: Cascade, map: "fk_cart_item_user")
+
+  @@unique([product_id, user_id], map: "unique_cartitem_product_user")
+  @@index([user_id], map: "fk_cart_item_user")
+}
+
+model Order {
+  id           Int         @id @default(autoincrement())
+  date_ordered DateTime    @db.DateTime(0)
+  user_id      Int
+  User         User        @relation(fields: [user_id], references: [id], onDelete: Cascade, map: "fk_order_product")
+  OrderItem    OrderItem[]
+
+  @@index([user_id], map: "fk_order_product")
+}
+
+model OrderItem {
+  id         Int   @id @default(autoincrement())
+  quantity   Int
+  product_id Int
+  order_id   Int
+  Order      Order @relation(fields: [order_id], references: [id], onDelete: Cascade, map: "fk_order_item_order")
+  User       User  @relation(fields: [product_id], references: [id], onDelete: Cascade, map: "fk_order_item_product")
+
+  @@unique([product_id, order_id], map: "unique_orderitem_product_order")
+  @@index([order_id], map: "fk_order_item_order")
+}
+
+model Product {
+  id               Int                @id @default(autoincrement())
+  price            Decimal            @db.Decimal(10, 2)
+  type             String?            @db.VarChar(50)
+  name             String             @unique(map: "unique_product_name") @db.VarChar(200)
+  description      String             @db.VarChar(250)
+  brand            String             @db.VarChar(200)
+  launch_date      DateTime           @db.DateTime(0)
+  ArtistItem       ArtistItem[]
+  CartItem         CartItem[]
+  ProductAttribute ProductAttribute[]
+}
+
+model ProductAttribute {
+  id         Int      @id @default(autoincrement())
+  product_id Int?
+  key        String   @db.VarChar(200)
+  value      String   @db.VarChar(200)
+  Product    Product? @relation(fields: [product_id], references: [id], onDelete: Cascade, map: "fk_product_attribute_product")
+
+  @@unique([product_id, key], map: "unique_productattribute_key")
+}
+
+model User {
+  id           Int         @id @default(autoincrement())
+  name         String      @db.VarChar(250)
+  username     String      @unique(map: "username") @db.VarChar(250)
+  password     String      @db.VarChar(250)
+  email        String      @unique(map: "email") @db.VarChar(100)
+  admin        Boolean     @default(false)
+  otp_enrolled Boolean     @default(false)
+  otp_key      String?     @db.VarChar(300)
+  Address      Address?
+  CartItem     CartItem[]
+  Order        Order[]
+  OrderItem    OrderItem[]
+}
+
+enum Artist_type {
+  SOLO_ARTIST
+  BAND
+}

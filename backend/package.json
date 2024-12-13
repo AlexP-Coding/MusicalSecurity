@@ -1,0 +1,41 @@
+{
+  "name": "backend",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "MusicMarkt API",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/zev4l/networking"
+  },
+  "prisma": {
+    "schema": "database/schema.prisma"
+  },
+  "author": "",
+  "license": "ISC",
+  "keywords": [],
+  "dependencies": {
+    "@prisma/client": "^4.8.0",
+    "base32-decode": "^1.0.0",
+    "base32-encode": "^2.0.0",
+    "bcrypt": "^5.1.0",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "esm": "^3.2.25",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "express-validator": "^6.14.2",
+    "figlet": "^1.5.2",
+    "jsonwebtoken": "^9.0.0",
+    "moment-timezone": "^0.5.40",
+    "morgan": "^1.10.0",
+    "nanoid": "^4.0.0",
+    "nodemon": "^2.0.20",
+    "prisma": "^4.8.0",
+    "yargs": "^17.6.2"
+  }
+}

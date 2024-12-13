@@ -1,0 +1,19 @@
+{
+	auto_https disable_certs
+}
+
+api-musicmarkt.local {
+	reverse_proxy https://192.168.1.20:4000
+	
+	tls /bootstrap/api-server/certs/server.crt /bootstrap/api-server/certs/server.key {
+		ca_root /bootstrap/ca/server.crt
+	}
+}
+
+musicmarkt.local {
+	reverse_proxy https://192.168.2.20:5000
+
+	tls /bootstrap/web-server/certs/server.crt /bootstrap/web-server/certs/server.key {
+		ca_root /bootstrap/ca/server.crt
+	}
+}
